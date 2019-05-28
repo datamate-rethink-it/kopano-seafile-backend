@@ -1,0 +1,18 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: chaas
+ * Date: 18.03.15
+ * Time: 17:39
+ */
+
+namespace SEAFAPI\Exception;
+
+
+class ConnectionException extends \Exception{
+
+	public function getHTTPCode() {
+		return 500;
+	}
+
+}

@@ -1,0 +1,38 @@
+Version 0.1 (01.03.2019)
++ initial version of files-plugin to connect to a seafile server.
++ renaming of ocsapi to seafapi
++ replacement of icons
++ fixed entry for trial server
+
+Version 0.2 (18.03.2019)
++ connection to any seafile server possible
++ display of version (seafile community and professional server)
++ creation of download-links (for files, folders and repositories) is possible
++ seafile-test.php complete
+=> Major Problem: Sharing-Links are not shown in the webinterface of kopano!
+
+Version 0.3 (22.03.2019)
++ display of existing shares in the first level of libraries.
++ add option "passwort" and "expiration" for download-links
++ removing of sharing-links remove the shared-icon
++ structure for the creation of upload-links (not working now)
+
+Version 0.4 (25.03.2019)
++ sharing of a folder to a user
+
+Version 0.9 (02.05.2019)
+- undo of sharing a folder to a user
++ add storage used
++ add quota available
++ add creation of librarys
++ add deletion of librarys
++ add rename of librarys
++ add sharing of libraries
++ fix sharing dialog of folders (add/remove on the fly)
++ add last modification date of folders and libraries
+
+Version 0.9.1 (03.05.2019)
++ fix deletion of files with "Sonderzeichen"
+
+Version 1.0 (24.05.2019)
++ fix deletion of libraries
