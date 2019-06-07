@@ -1,5 +1,5 @@
-# Kopano-Seafile-Backend
-The **kopano-seafile-backend** integrates [Seafile](https://seafile.com) as a file backend in [Kopano](https://kopano.com) and extends the groupware with File Sharing functions. The Seafile backend is an extension of the Kopano Files plugin and allows direct access of all your Seafile data within kopano.
+# Seafile Plugin for Kopano
+The **Seafile Plugin for Kopano** integrates [Seafile](https://seafile.com) as a file backend in [Kopano](https://kopano.com) and extends the groupware with File Sharing functions. The Seafile backend is an extension of the Kopano Files plugin and allows direct access of all your Seafile data within kopano.
 
 # Installation
 
@@ -7,7 +7,7 @@ The Installation of the Seafile backend is done in three steps. First, it is nec
 
 # Prerequisites
 
-The **kopano-seafile-backend** requires a Kopano installation with activated Files plugin and a Seafile Server. This plugin has been tested with Seafile Community and Seafile Professional in version 6.3.x and 7.0. [WebDAV has to be enabled](https://manual.seafile.com/extension/webdav.html) on the Seafile server. 
+The **Seafile Plugin for Kopano** requires a Kopano installation with activated Files plugin and a Seafile Server. This plugin has been tested with Seafile Community and Seafile Professional in version 6.3.x and 7.0. [WebDAV has to be enabled](https://manual.seafile.com/extension/webdav.html) on the Seafile server. 
 
 Seafile and Kopano can be installed on different servers.
 
