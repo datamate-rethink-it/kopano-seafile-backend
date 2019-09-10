@@ -40,12 +40,12 @@ class seafapi {
 	private $user = "";
 
 	/**
-	 * @var string Password 
+	 * @var string Password
 	 */
 	private $pass = "";
 
 	/**
-HÄ	 * @var bool Defines if the store has been loaded
+	 * @var bool Defines if the store has been loaded
 	 */
 	private $loaded = false;
 
@@ -74,7 +74,7 @@ HÄ	 * @var bool Defines if the store has been loaded
 	public $response_info;
 
 	/**
-HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID.
+	 * @var share[] This will hold an array of ocsshares - index is the share ID.
 	 */
 	private $shares;
 
@@ -125,7 +125,7 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 	private function http_parse_message($res) {
 
 		if(! $res)
-			throw new Exception(curl_error($this->handle), -1);
+			throw new ConnectionException(curl_error($this->handle), -1);
 
 		$this->response_info = curl_getinfo($this->handle);
 		$code = $this->response_info['http_code'];
@@ -137,7 +137,7 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 			// this ConnectionException is disabled because of a bug in the files-plugin. In case of the deletion of a library the files plugin tries to delete it twice.
 			// see https://jira.kopano.io/browse/KFP-398
 			// temporary solution: don't throw Exception but return a false.
-			
+
 			//throw new ConnectionException($this->seafile_code. ' - '.$this->seafile_status . ' - ' .curl_error($this->handle));
 			return false;
 		}
@@ -175,10 +175,10 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 		        $lib['id'] = $l->id;
 		    	$lib['name'] = $l->name;
 		    }
-		}  
+		}
 
-		return $lib; 
-		
+		return $lib;
+
 	}
 
 	public function getLibraryByName($name){
@@ -190,7 +190,7 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 		    if($l->name == $name){
 		        return $l->id;
 		    }
-		}  
+		}
 
 	}
 
@@ -206,12 +206,12 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 
 
 
-		
+
 
 
 	private function getToken(){
 		$data = $this->decode($this->post($this->baseurl.'/api2/auth-token/', array(
-			'username' => $this->user, 
+			'username' => $this->user,
 			'password' => $this->pass
 		)));
 		$this->token = (string)$data->token;
@@ -243,14 +243,14 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 	}
 
 	private function get($url, $http_options = array()) {
-		
+
 		$http_options = $http_options + $this->http_options;
 		$this->handle = curl_init($url);
 
 		if(! curl_setopt_array($this->handle, $http_options))
 			throw new Exception("Error setting cURL request options");
 
-		
+
 		$this->response_object = curl_exec($this->handle);
 		$this->http_parse_message($this->response_object);
 
@@ -259,7 +259,7 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 	}
 
 	public function put($url, $data = '', $http_options = array()) {
-		
+
 		$http_options = $http_options + $this->http_options;
 		$http_options[CURLOPT_CUSTOMREQUEST] = 'PUT';
 		$http_options[CURLOPT_POSTFIELDS] = $data;
@@ -276,7 +276,7 @@ HÄ	 * @var share[] This will hold an array of ocsshares - index is the share ID
 	}
 
 	public function delete($url, $http_options = array()) {
-		
+
 		$http_options = $http_options + $this->http_options;
 		$http_options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
 		$this->handle = curl_init($url);
@@ -531,11 +531,11 @@ Kann die nicht weg??
 
 		}
 
-		
 
 
-		// wir sind irgendwo tiefer im Baum -> ich will nur die, die 
-		// a) die richtige REPO haben und 
+
+		// wir sind irgendwo tiefer im Baum -> ich will nur die, die
+		// a) die richtige REPO haben und
 		// b) in $details->path, den $path am Anfang haben...
 		// ausserdem muss ich den pfad umbauen. In path darf nur / + Dateiname stehen... Alle davorstehenden Ordner müssen weg...
 		if(substr_count($path, "/") >= 2){
@@ -545,7 +545,7 @@ Kann die nicht weg??
 			foreach ($shares as $id => $details) {
 
 				if($details->repo_name == $lib['name']){
-					if (strpos($details->path, $path_w_lib) === 0) { 
+					if (strpos($details->path, $path_w_lib) === 0) {
 	   					$shares_new[$id] = $shares[$id];
 	   					// path should only contain "/" + filename.
 	   					$shares_new[$id]->path = "/". $details->obj_name;
@@ -553,7 +553,7 @@ Kann die nicht weg??
 	   				}
 				}
 			}
-			$shares = $shares_new;	
+			$shares = $shares_new;
 		}
 
 // SHARED-FOLDERS
@@ -582,7 +582,7 @@ Kann die nicht weg??
 		return $output;
 	}
 	*/
-	
+
 
 
 	/**
@@ -596,7 +596,7 @@ Kann die nicht weg??
 
 	public function loadShareByID($id) {
 		// GEHT !!!
-		
+
 		$this->loadShares();
 		//$this->loaded = true;
 		if(isset($this->shares[$id])) {
@@ -620,7 +620,7 @@ Kann die nicht weg??
 
 	public function loadShareByPath($path) {
 
-		
+
 		// das geht noch nicht !!!
 
 		//echo "\n Das ist der Pfad initial in loadShareByPath ". $path ."\n";
@@ -699,7 +699,7 @@ Kann die nicht weg??
 		$output[] = ['Max Mustermann', 1, user];
 		$output[] = ['Wilma Wunder', 2, user];
 		*/
-		
+
 	}
 /*
 	public function getRecipients($search) {
@@ -780,7 +780,7 @@ Kann die nicht weg??
 	/*
 	public function getShareByPath($path) {
 
-		
+
 		echo $path;
 		$shares = $this->loadShareByPath($path);
 
@@ -821,7 +821,7 @@ Kann die nicht weg??
 
 
 	public function createShare($path = "/", $options) {
-		
+
 		// INPUT:
 		// $path: "/asdfasf/logo-neu.png"
 		// $options: "array(shareType = 3)"
@@ -834,7 +834,7 @@ Kann die nicht weg??
 
 		/* mögliche Werte:
 		$options(
-			'shareType' = int, 
+			'shareType' = int,
 				z.B. "3" => share-link
 					'password' = string, z.B. "geheim"
 					'expireDate' = string, z.B. "2019-03-30"
@@ -925,7 +925,7 @@ Kann die nicht weg??
 	 */
 
 	public function deleteShare($id) {
-		
+
 		//error_log("JETZT KOMMT DER LINK WIEDER WEG!");
 		//error_log($id);
 
@@ -967,7 +967,7 @@ Kann die nicht weg??
 		// get library_id from path:
 		$lib = $this->getLibraryByName($name);
 		//$this->log($lib);
-		
+
 
 		return $this->decode($this->delete($this->baseurl.'/api2/repos/'.$lib.'/', array(
 			CURLOPT_HTTPHEADER => array('Authorization: Token '.$this->token)

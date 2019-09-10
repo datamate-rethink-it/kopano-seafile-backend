@@ -14,12 +14,12 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 	 */
 	record : undefined,
 
- 	/**
+	/**
 	 * @cfg {Ext.data.arrayStore} store holding the user and group share data
 	 */
 	store : undefined,
 
- 	/**
+	/**
 	 * @cfg {String} record id of the parent files record
 	 */
 	recordId: undefined,
@@ -112,7 +112,6 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 	 */
 	createPanelItems: function () {
 		var type = "user"; // user or group
-		var shareWith = ""; // user/group name
 		var shareWithDisplayname = ""; // user/group displayname
 		var permissionCreate = false;
 		var permissionChange = false;
@@ -120,7 +119,6 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 		var permissionShare = false;
 		if (this.record) {
 			type = this.record.get('type');
-			shareWith = this.record.get('shareWith');
 			shareWithDisplayname = this.record.get('shareWithDisplayname');
 			permissionShare = this.record.get('permissionShare');
 			permissionChange = this.record.get('permissionChange');

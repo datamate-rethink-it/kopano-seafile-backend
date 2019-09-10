@@ -116,7 +116,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					},
 					anchor  : "0",
 					items   : [{
-						columnWidth: .95,
+						columnWidth: 0.95,
 						layout     : "form",
 						items      : {
 							xtype        : "textfield",
@@ -127,7 +127,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 							readOnly     : true
 						}
 					}, {
-						columnWidth: .05,
+						columnWidth: 0.05,
 						items      : {
 							xtype       : "copybutton",
 							swfPath     : "plugins/filesbackendSeafile/resources/flash/ZeroClipboard.swf",
@@ -180,7 +180,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					ref       : "../expirationfield",
 					hidden    : true,
 					fieldLabel: dgettext("plugin_filesbackendSeafile", "Date"),
-					minValue  : new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // tomorrow
+					minValue  : new Date(new Date().getTime() + (24 * 60 * 60 * 1000)), // tomorrow
 					width     : 170,
 					format    : 'Y-m-d',
 					listeners : {
@@ -477,7 +477,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 				}
 				//check permissions
 				if (!Ext.isEmpty(share.permissions)) {
-					if (parseInt(share.permissions) === 7) {
+					if (parseInt(share.permissions, 10) === 7) {
 						this.editcheckbox.suspendEvents(false); // Stop all events.
 						this.editcheckbox.setValue(true); // check checkbox
 						this.editcheckbox.resumeEvents(); // resume events
