@@ -2,11 +2,11 @@
 <!DOCTYPE plugin SYSTEM "manifest.dtd">
 <plugin version="2">
 	<info>
-		<version>1.0</version>
+		<version>1.1</version>
 		<name>filesbackendSeafile</name>
 		<title>seafile backend for Files</title>
-		<author>Kopano</author>
-		<authorURL>http://www.kopano.com</authorURL>
+		<author>Christoph Dyllick-Brenzinger</author>
+		<authorURL>https://www.datamate.org</authorURL>
 		<description>This backend for Files provides seafile support</description>
 	</info>
 	<dependencies>
