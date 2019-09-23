@@ -1,7 +1,6 @@
 Ext.namespace('Zarafa.plugins.files.backend.Seafile');
 
 /**
- *
  * @class Zarafa.plugins.files.backend.Seafile.SeafileBackend
  * @extends Zarafa.core.Plugin
  *
@@ -87,6 +86,7 @@ Zarafa.onReady(function () {
 		pluginConstructor: Zarafa.plugins.files.backend.Seafile.SeafileBackend
 	}));
 });
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.data');
 
 /**
@@ -123,6 +123,7 @@ Zarafa.plugins.files.backend.Seafile.data.RecipientTypes = Zarafa.core.Enum.crea
 	 */
 	LINK: 3
 });
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.data');
 
 /**
@@ -199,6 +200,7 @@ Zarafa.plugins.files.backend.Seafile.data.ResponseHandler = Ext.extend(Zarafa.co
 });
 
 Ext.reg('filesplugin.seafile.responsehandler', Zarafa.plugins.files.backend.Seafile.data.ResponseHandler);
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.data');
 
 /**
@@ -216,6 +218,7 @@ Zarafa.plugins.files.backend.Seafile.data.ShareGridRecord = Ext.data.Record.crea
 	{name: "permissionDelete", type: "bool"},
 	{name: "permissionShare", type: "bool"}
 );
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.data');
 
 /**
@@ -241,121 +244,7 @@ Zarafa.plugins.files.backend.Seafile.data.ShareGridStore = Ext.extend(Ext.data.A
 });
 
 Ext.reg('filesplugin.seafile.sharegridstore', Zarafa.plugins.files.backend.Seafile.data.ShareGridStore);
-Ext.namespace('Zarafa.plugins.files.backend.Seafile.data.singleton');
 
-/**
- * @class Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore
- * @extends Object
- *
- * This singleton provides access to the {@link Zarafa.plugins.files.backend.Seafile.data.ShareGridStore ShareGridStore}.
- * It must be initialized once by calling the init method.
- */
-Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore = Ext.extend(Object, {
-
-	/**
-	 * @property
-	 * @type Zarafa.plugins.files.data.AccountStore
-	 * @private
-	 */
-	store: undefined,
-
-	/**
-	 * Triggers a call to the backend to load version information.
-	 * @param {Number} fileType folder or file
-	 */
-	init: function (fileType) {
-		this.store = new Zarafa.plugins.files.backend.Seafile.data.ShareGridStore(fileType);
-	},
-
-	/**
-	 * Loads userdata to the store.
-	 *
-	 * @param {Object} shareOpts object with the sharing options
-	 * Possible values of shareOpts are:
-	 * - id: the id oof the share
-         * - shareWith: seafile internal user identifier
-         * - shareWithDisplayname: the shareusers displayname
-         * - permissions: bytecode presentation of the chare permissions
-         * - shareType: type of the share, one of Zarafa.plugins.files.backend.Seafile.data.RecipientTypes
-	 */
-	addUser: function (shareOpts) {
-		var permissionCreate = false;
-		var permissionChange = false;
-		var permissionDelete = false;
-		var permissionShare = false;
-
-		// parse the permission number
-		if ((shareOpts.permissions - 16) >= 1) {
-			permissionShare = true;
-			shareOpts.permissions -= 16;
-		}
-		if ((shareOpts.permissions - 8) >= 1) {
-			permissionDelete = true;
-			shareOpts.permissions -= 8;
-		}
-		if ((shareOpts.permissions - 4) >= 1) {
-			permissionCreate = true;
-			shareOpts.permissions -= 4;
-		}
-		if ((shareOpts.permissions - 2) >= 1) {
-			permissionChange = true;
-		}
-
-		var record = [shareOpts.id, shareOpts.shareWith, shareOpts.shareWithDisplayname, "user", permissionCreate, permissionChange, permissionDelete, permissionShare];
-
-		this.store.loadData([record], true);
-	},
-
-	/**
-	 * Loads groupdata to the store.
-	 *
-	 * @param {Object} shareOpts object with the sharing options
-	 * Possible values of shareOpts are:
-	 * - id: the id oof the share
-         * - shareWith: seafile internal user identifier
-         * - shareWithDisplayname: the shareusers displayname
-         * - permissions: bytecode presentation of the chare permissions
-         * - shareType: type of the share, one of Zarafa.plugins.files.backend.Seafile.data.RecipientTypes
-	 */
-	addGroup: function (shareOpts) {
-		var permissionCreate = false;
-		var permissionChange = false;
-		var permissionDelete = false;
-		var permissionShare = false;
-
-		// parse the permission number
-		if ((shareOpts.permissions - 16) >= 1) {
-			permissionShare = true;
-			shareOpts.permissions -= 16;
-		}
-		if ((shareOpts.permissions - 8) >= 1) {
-			permissionDelete = true;
-			shareOpts.permissions -= 8;
-		}
-		if ((shareOpts.permissions - 4) >= 1) {
-			permissionCreate = true;
-			shareOpts.permissions -= 4;
-		}
-		if ((shareOpts.permissions - 2) >= 1) {
-			permissionChange = true;
-		}
-
-		var record = [shareOpts.id, shareOpts.shareWith, shareOpts.shareWithDisplayname, "group", permissionCreate, permissionChange, permissionDelete, permissionShare];
-
-		this.store.loadData([record], true);
-	},
-
-	/**
-	 * Get instance of the {@link Zarafa.plugins.files.data.AccountStore Accountstore}
-	 * @return {Zarafa.plugins.files.data.AccountStore} the account store
-	 */
-	getStore: function () {
-		return this.store;
-	}
-});
-
-// Make it a Singleton
-Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore = new Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore();
 Ext.namespace('Ext.ux');
 
 /**
@@ -460,7 +349,9 @@ Ext.ux.CopyButton = Ext.extend(Ext.Button, {
 	}
 });
 
-Ext.reg('copybutton', Ext.ux.CopyButton);/*!
+Ext.reg('copybutton', Ext.ux.CopyButton);
+
+/*!
  * ZeroClipboard
  * The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.
  * Copyright (c) 2014 Jon Rohan, James M. Greene
@@ -1490,7 +1381,9 @@ Ext.reg('copybutton', Ext.ux.CopyButton);/*!
 	}
 })(function() {
 	return this;
-}());Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
+}());
+
+Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
  * @class Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel
@@ -1608,7 +1501,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					},
 					anchor  : "0",
 					items   : [{
-						columnWidth: .95,
+						columnWidth: 0.95,
 						layout     : "form",
 						items      : {
 							xtype        : "textfield",
@@ -1619,7 +1512,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 							readOnly     : true
 						}
 					}, {
-						columnWidth: .05,
+						columnWidth: 0.05,
 						items      : {
 							xtype       : "copybutton",
 							swfPath     : "plugins/filesbackendSeafile/resources/flash/ZeroClipboard.swf",
@@ -1672,7 +1565,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					ref       : "../expirationfield",
 					hidden    : true,
 					fieldLabel: dgettext("plugin_filesbackendSeafile", "Date"),
-					minValue  : new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // tomorrow
+					minValue  : new Date(new Date().getTime() + (24 * 60 * 60 * 1000)), // tomorrow
 					width     : 170,
 					format    : 'Y-m-d',
 					listeners : {
@@ -1969,7 +1862,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 				}
 				//check permissions
 				if (!Ext.isEmpty(share.permissions)) {
-					if (parseInt(share.permissions) === 7) {
+					if (parseInt(share.permissions, 10) === 7) {
 						this.editcheckbox.suspendEvents(false); // Stop all events.
 						this.editcheckbox.setValue(true); // check checkbox
 						this.editcheckbox.resumeEvents(); // resume events
@@ -2247,6 +2140,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 });
 
 Ext.reg('filesplugin.seafile.filessharedialogpanel', Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel);
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
@@ -2289,6 +2183,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditContentPanel = Ext.ext
 });
 
 Ext.reg('filesplugin.seafile.filesshareusereditcontentpanel', Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditContentPanel);
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
@@ -2305,12 +2200,12 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 	 */
 	record : undefined,
 
- 	/**
+	/**
 	 * @cfg {Ext.data.arrayStore} store holding the user and group share data
 	 */
 	store : undefined,
 
- 	/**
+	/**
 	 * @cfg {String} record id of the parent files record
 	 */
 	recordId: undefined,
@@ -2319,7 +2214,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 	 * @constructor
 	 * @param config
 	 */
-	constructor: function (config) 
+	constructor: function (config)
 	{
 		if (config.record) {
 			this.record = config.record;
@@ -2403,7 +2298,6 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 	 */
 	createPanelItems: function () {
 		var type = "user"; // user or group
-		var shareWith = ""; // user/group name
 		var shareWithDisplayname = ""; // user/group displayname
 		var permissionCreate = false;
 		var permissionChange = false;
@@ -2411,7 +2305,6 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 		var permissionShare = false;
 		if (this.record) {
 			type = this.record.get('type');
-			shareWith = this.record.get('shareWith');
 			shareWithDisplayname = this.record.get('shareWithDisplayname');
 			permissionShare = this.record.get('permissionShare');
 			permissionChange = this.record.get('permissionChange');
@@ -2494,6 +2387,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel = Ext.extend(Ext
 });
 
 Ext.reg('filesplugin.seafile.filesshareusereditpanel', Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserEditPanel);
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
@@ -2514,7 +2408,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserGrid = Ext.extend(Ext.grid
    * @cfg {Number} The parent record id
    */
   recordId: undefined,
-	
+
 	/**
 	 * @constructor
 	 * @param {Object} config
@@ -2677,6 +2571,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserGrid = Ext.extend(Ext.grid
 });
 
 Ext.reg('filesplugin.seafile.filesshareusergrid', Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserGrid);
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
@@ -2807,6 +2702,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareUserGridColumnModel = Ext.exte
 		return '';
 	}
 });
+
 Ext.namespace('Zarafa.plugins.files.backend.Seafile.ui');
 
 /**
@@ -2901,3 +2797,119 @@ Zarafa.plugins.files.backend.Seafile.ui.UserGroupPredictorField = Ext.extend(Ext
 });
 
 Ext.reg('filesplugin.seafile.usergrouppredictorfield', Zarafa.plugins.files.backend.Seafile.ui.UserGroupPredictorField);
+
+Ext.namespace('Zarafa.plugins.files.backend.Seafile.data.singleton');
+
+/**
+ * @class Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore
+ * @extends Object
+ *
+ * This singleton provides access to the {@link Zarafa.plugins.files.backend.Seafile.data.ShareGridStore ShareGridStore}.
+ * It must be initialized once by calling the init method.
+ */
+Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore = Ext.extend(Object, {
+
+	/**
+	 * @property
+	 * @type Zarafa.plugins.files.data.AccountStore
+	 * @private
+	 */
+	store: undefined,
+
+	/**
+	 * Triggers a call to the backend to load version information.
+	 * @param {Number} fileType folder or file
+	 */
+	init: function (fileType) {
+		this.store = new Zarafa.plugins.files.backend.Seafile.data.ShareGridStore(fileType);
+	},
+
+	/**
+	 * Loads userdata to the store.
+	 *
+	 * @param {Object} shareOpts object with the sharing options
+	 * Possible values of shareOpts are:
+	 * - id: the id oof the share
+         * - shareWith: seafile internal user identifier
+         * - shareWithDisplayname: the shareusers displayname
+         * - permissions: bytecode presentation of the chare permissions
+         * - shareType: type of the share, one of Zarafa.plugins.files.backend.Seafile.data.RecipientTypes
+	 */
+	addUser: function (shareOpts) {
+		var permissionCreate = false;
+		var permissionChange = false;
+		var permissionDelete = false;
+		var permissionShare = false;
+
+		// parse the permission number
+		if ((shareOpts.permissions - 16) >= 1) {
+			permissionShare = true;
+			shareOpts.permissions -= 16;
+		}
+		if ((shareOpts.permissions - 8) >= 1) {
+			permissionDelete = true;
+			shareOpts.permissions -= 8;
+		}
+		if ((shareOpts.permissions - 4) >= 1) {
+			permissionCreate = true;
+			shareOpts.permissions -= 4;
+		}
+		if ((shareOpts.permissions - 2) >= 1) {
+			permissionChange = true;
+		}
+
+		var record = [shareOpts.id, shareOpts.shareWith, shareOpts.shareWithDisplayname, "user", permissionCreate, permissionChange, permissionDelete, permissionShare];
+
+		this.store.loadData([record], true);
+	},
+
+	/**
+	 * Loads groupdata to the store.
+	 *
+	 * @param {Object} shareOpts object with the sharing options
+	 * Possible values of shareOpts are:
+	 * - id: the id oof the share
+         * - shareWith: seafile internal user identifier
+         * - shareWithDisplayname: the shareusers displayname
+         * - permissions: bytecode presentation of the chare permissions
+         * - shareType: type of the share, one of Zarafa.plugins.files.backend.Seafile.data.RecipientTypes
+	 */
+	addGroup: function (shareOpts) {
+		var permissionCreate = false;
+		var permissionChange = false;
+		var permissionDelete = false;
+		var permissionShare = false;
+
+		// parse the permission number
+		if ((shareOpts.permissions - 16) >= 1) {
+			permissionShare = true;
+			shareOpts.permissions -= 16;
+		}
+		if ((shareOpts.permissions - 8) >= 1) {
+			permissionDelete = true;
+			shareOpts.permissions -= 8;
+		}
+		if ((shareOpts.permissions - 4) >= 1) {
+			permissionCreate = true;
+			shareOpts.permissions -= 4;
+		}
+		if ((shareOpts.permissions - 2) >= 1) {
+			permissionChange = true;
+		}
+
+		var record = [shareOpts.id, shareOpts.shareWith, shareOpts.shareWithDisplayname, "group", permissionCreate, permissionChange, permissionDelete, permissionShare];
+
+		this.store.loadData([record], true);
+	},
+
+	/**
+	 * Get instance of the {@link Zarafa.plugins.files.data.AccountStore Accountstore}
+	 * @return {Zarafa.plugins.files.data.AccountStore} the account store
+	 */
+	getStore: function () {
+		return this.store;
+	}
+});
+
+// Make it a Singleton
+Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore = new Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore();

@@ -1,0 +1,67 @@
+{
+    "name": "filesbackendseafile",
+    "version": "1.0.0",
+    "description": "Seafile backend plugin for the Files plugin of Kopano WebApp",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "kwp:eslint": "eslint src/js",
+        "kwp:clean": "gulp clean",
+        "kwp:phplint": "gulp phplint",
+        "kwp:lint": "$npm_execpath run kwp:eslint && $npm_execpath run kwp:phplint",
+        "kwp:sniff": "gulp phpcs",
+        "kwp:minify:js": "gulp jsMinify",
+        "kwp:minify:css": "gulp cssMinify",
+        "kwp:minify": "$npm_execpath run kwp:minify:js && $npm_execpath run kwp:minify:css",
+        "kwp:build": "$npm_execpath run kwp:lint && $npm_execpath run kwp:minify",
+        "kwp:dist:manifest": "gulp manifestLint",
+        "kwp:dist:copy-license": "cpx LICENSE dist",
+        "kwp:dist:copy-resources": "cpx src/resources/flash/**/* dist/resources/flash && cpx src/resources/icons/**/* dist/resources/icons",
+        "kwp:dist:copy-config": "cpx config.php.dist dist ",
+        "kwp:dist:copy-js": "cpx {src,bla}/js/**/* dist",
+        "kwp:dist:copy-css": "cpx {src,bla}/resources/css/**/* dist",
+        "kwp:dist:copy-php": "cpx php/**/* dist/php && cpx config.php.dist dist",
+        "kwp:dist:copy": "$npm_execpath run kwp:dist:copy-resources && $npm_execpath run kwp:dist:copy-js && $npm_execpath run kwp:dist:copy-css",
+        "kwp:dist": "$npm_execpath run kwp:clean && $npm_execpath run kwp:build && $npm_execpath run kwp:dist:copy-resources && $npm_execpath run kwp:dist:manifest",
+        "kwp:watch": "gulp watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/datamate-rethink-it/kopano-seafile-backend.git"
+    },
+    "keywords": [
+        "Kopano",
+        "Kopano WebApp",
+        "Seafile",
+        "Datamate",
+        "Files",
+        "plugin",
+        "Files backend"
+    ],
+    "author": "Datamate",
+    "license": "AGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/datamate-rethink-it/kopano-seafile-backend/issues"
+    },
+    "homepage": "https://github.com/datamate-rethink-it/kopano-seafile-backend#readme",
+    "devDependencies": {
+        "@kopanowebapp/create-webapp-plugin": "^1.0.2",
+        "@kopanowebapp/eslint-config": "^1.1.2",
+        "@kopanowebapp/gulpfile-plugin": "^1.0.4",
+        "chalk": "^2.4.2",
+        "command-exists": "^1.2.8",
+        "cpx": "^1.5.0",
+        "del": "^4.1.1",
+        "eslint": "^5.16.0",
+        "gulp": "^4.0.2",
+        "gulp-clean-css": "^4.2.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-ext3order": "^1.0.0",
+        "gulp-phpcs": "^3.0.0",
+        "gulp-phplint": "^0.9.0",
+        "gulp-rename": "^1.4.0",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-uglify": "^3.0.2",
+        "replace": "^1.1.0",
+        "uglify-es": "^3.3.9"
+    }
+}
