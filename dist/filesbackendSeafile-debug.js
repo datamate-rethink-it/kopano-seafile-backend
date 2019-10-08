@@ -1450,17 +1450,18 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 	 */
 	constructor: function (config) {
 		config = config || {};
-		var type = config.ownerCt.records[0].get("type");
-		this.recordId = config.ownerCt.records[0].get("id");
-		this.parentRecord = config.ownerCt.records[0];
+		var contentPanel = config.ownerCt;
+		var record = contentPanel.records[0];
+
+		var type = record.get("type");
+		this.recordId = Ext.isDefined(record.get("folder_id")) ? record.get("folder_id") : record.get("id");
+		this.parentRecord = record;
+
 		Zarafa.plugins.files.backend.Seafile.data.singleton.ShareStore.init(type);
 		this.setupGridStoreListeners();
 
 
 		Ext.applyIf(config, {
-			listeners: {
-				afterrender: this.checkSharedRecord
-			},
 			height   : 450,
 			width    : 780,
 			items    : [{
@@ -1485,7 +1486,8 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					marginLeft: '6px'
 				},
 				listeners : {
-					check: this.onShareViaLinkChecked.createDelegate(this)
+					check: this.onShareViaLinkChecked,
+					scope:this
 				}
 			}, {
 				xtype     : "fieldset",
@@ -1518,7 +1520,8 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 							swfPath     : "plugins/filesbackendSeafile/resources/flash/ZeroClipboard.swf",
 							completeText: dgettext("plugin_filesbackendSeafile", "Link copied to clipboard"),
 							iconCls     : "icon_copy_clipboard",
-							getValue    : this.getPublicLinkValue.createDelegate(this)
+							getValue    : this.getPublicLinkValue,
+							scope: this
 						}
 					}]
 				}, {
@@ -1528,7 +1531,8 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					ref       : "../passwordcheckbox",
 					inputValue: "pwprotected",
 					listeners : {
-						check: this.onUsePasswordChecked.createDelegate(this)
+						check: this.onUsePasswordChecked,
+						scope: this
 					}
 				}, {
 					xtype     : "textfield",
@@ -1538,8 +1542,9 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					inputType : 'password',
 					name      : "textvalue",
 					listeners : {
-						change: this.onPasswordChange.createDelegate(this),
-						keyup : this.onPasswordChange.createDelegate(this)
+						change: this.onPasswordChange,
+						keyup : this.onPasswordChange,
+						scope: this
 					}
 				}, {
 					xtype     : "checkbox",
@@ -1549,7 +1554,8 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					ref       : "../editcheckbox",
 					inputValue: "allowediting",
 					listeners : {
-						check: this.onAllowEditingChecked.createDelegate(this)
+						check: this.onAllowEditingChecked,
+						scope: this
 					}
 				}, {
 					xtype     : "checkbox",
@@ -1558,7 +1564,8 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					ref       : "../expirationcheckbox",
 					inputValue: "useexpiration",
 					listeners : {
-						check: this.onUseExpirationDateChecked.createDelegate(this)
+						check: this.onUseExpirationDateChecked,
+						scope: this
 					}
 				}, {
 					xtype     : "datefield",
@@ -1569,8 +1576,9 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 					width     : 170,
 					format    : 'Y-m-d',
 					listeners : {
-						change: this.onExpirationDateChange.createDelegate(this),
-						keyup : this.onExpirationDateChange.createDelegate(this)
+						change: this.onExpirationDateChange,
+						keyup : this.onExpirationDateChange,
+						scope: this
 					}
 				}]
 			}],
@@ -1585,7 +1593,11 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 				text   : dgettext('plugin_filesbackendSeafile', 'Cancel'),
 				handler: this.onCancel,
 				scope  : this
-			}]
+			}],
+			listeners: {
+				afterrender: this.checkSharedRecord,
+				scope: this
+			}
 		});
 
 		Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel.superclass.constructor.call(this, config);
@@ -1612,7 +1624,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 	 */
 	onGridStoreRemove: function (store, record) {
 		// check if an id is set - if so, remove the old share
-		if (record.get("id") != "" && record.get("id") != -1) {
+		if (record.get("id") !== "" && record.get("id") !== -1) {
 			this.removeShareByID(record.get("id"));
 		}
 	},
@@ -1640,7 +1652,7 @@ Zarafa.plugins.files.backend.Seafile.ui.FilesShareDialogPanel = Ext.extend(Zaraf
 	 */
 	onGridStoreAdd: function (store, records) {
 		// Ignore the initial loading of the store
-		if(records.length != 1 || records[0].get("id") != -1) {
+		if(records.length !== 1 || records[0].get("id") !== -1) {
 			return true;
 		}
 		this.createShare(records[0], store, false);
