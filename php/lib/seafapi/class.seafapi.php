@@ -994,7 +994,7 @@ Kann die nicht weg??
 			$path = "?p=". $path;
 		}
 
-		return $this->decode($this->get($this->baseurl.'/api2/repos/'.$lib.'/dir/'.$path, array(
+		return $this->decode($this->get($this->baseurl.'/api2/repos/'.$lib.'/dir/'.urlencode($path), array(
 			CURLOPT_HTTPHEADER => array('Authorization: Token '.$this->token)
 		)));
 	}
