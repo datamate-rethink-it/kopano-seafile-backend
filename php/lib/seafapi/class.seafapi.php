@@ -991,7 +991,10 @@ Kann die nicht weg??
 
 		//$lib = $this->getLibraryByName($name);
 		if($path != ""){
-			$path = "?p=". $path;
+			// Encode before the query string is built, not after: encoding the
+			// assembled "?p=/dir" would escape the "?" and "=" themselves and
+			// the parameter would never reach the API.
+			$path = "?p=". rawurlencode($path);
 		}
 
 		return $this->decode($this->get($this->baseurl.'/api2/repos/'.$lib.'/dir/'.$path, array(
